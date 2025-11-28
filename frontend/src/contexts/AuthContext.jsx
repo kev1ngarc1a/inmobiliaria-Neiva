@@ -1,15 +1,23 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AuthService from '../services/AuthService';
 
-const authService = new AuthService();
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
+    const authService = new AuthService();
     const [user, setUser] = useState(authService.currentUser());
 
-    // Mantener sincronizado con localStorage
     useEffect(() => {
-        setUser(authService.currentUser());
+        const syncUser = () => {
+            setUser(authService.currentUser());
+        };
+
+        // Por si cambia en otra pestaña
+        window.addEventListener("storage", syncUser);
+
+        return () => {
+            window.removeEventListener("storage", syncUser);
+        };
     }, []);
 
     const login = (payload) => {

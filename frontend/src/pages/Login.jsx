@@ -2,66 +2,91 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import "../styles/Login.css";
 
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    const { login } = useAuth();
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
-        try {
-            const res = await axios.post("http://localhost:4000/api/login", {
-                email,
-                password,
-            });
+    try {
+      const res = await axios.post("http://localhost:4000/api/login", {
+        email,
+        password,
+      });
 
-            // Guardar token
-            localStorage.setItem("token", res.data.token);
+      const user = {
+        ...res.data.user,
+        token: res.data.token,
+      };
 
-            // ¡AQUÍ ESTABA EL PROBLEMA!
-            login(res.data.user);
+      login(user);
+      navigate("/");
+    } catch (err) {
+      setError(err.response?.data?.message || "Error al iniciar sesión");
+    }
 
-            alert("Bienvenido " + res.data.user.username);
+    setLoading(false);
+  };
 
-            navigate("/");
-        } catch (err) {
-            alert("Error: " + err.response?.data?.message);
-        }
+  return (
+    <div className="login-page">
+      <div className="login-card uk-card uk-card-default uk-card-body">
 
-        setLoading(false);
-    };
+        <h2 className="login-title">Iniciar sesión</h2>
+        <p className="login-subtitle">
+          Accede para publicar, guardar y contactar propiedades
+        </p>
 
-    return (
-        <div className="uk-container uk-margin-top">
-            <h2 className="uk-heading-medium">Iniciar sesión</h2>
+        {error && (
+          <div className="uk-alert-danger" uk-alert="true">
+            <p>{error}</p>
+          </div>
+        )}
 
-            <form onSubmit={handleSubmit} className="uk-form-stacked uk-margin-top">
-                <label className="uk-form-label">Correo</label>
-                <input
-                    className="uk-input"
-                    type="email"
-                    required
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+        <form onSubmit={handleSubmit} className="uk-form-stacked">
 
-                <label className="uk-form-label uk-margin-top">Contraseña</label>
-                <input
-                    className="uk-input"
-                    type="password"
-                    required
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+          <div className="uk-margin">
+            <label className="uk-form-label">Correo</label>
+            <input
+              className="uk-input"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-                <button className="uk-button uk-button-primary uk-margin-top" disabled={loading}>
-                    {loading ? "Ingresando..." : "Entrar"}
-                </button>
-            </form>
-        </div>
-    );
+          <div className="uk-margin">
+            <label className="uk-form-label">Contraseña</label>
+            <input
+              className="uk-input"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button
+            className="uk-button uk-button-primary uk-width-1-1 login-btn"
+            disabled={loading}
+          >
+            {loading ? "Ingresando..." : "Entrar"}
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+  );
 }

@@ -1,0 +1,67 @@
+/* ===== LOGIN PAGE ===== */
+.login-page {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  padding: 40px 16px;
+}
+
+/* Tarjeta */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.12);
+  padding: 34px 28px;
+}
+
+/* Título */
+.login-title {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+/* Subtítulo */
+.login-subtitle {
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* Inputs */
+.login-card .uk-input {
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.login-card .uk-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.15);
+}
+
+/* Botón */
+.login-btn {
+  margin-top: 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 12px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 26px 20px;
+  }
+
+  .login-title {
+    font-size: 24px;
+  }
+}
