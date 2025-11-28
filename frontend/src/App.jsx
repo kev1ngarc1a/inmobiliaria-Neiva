@@ -7,12 +7,19 @@ import Search from "./pages/Search";
 import Property from "./pages/Property";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+
+import CreateProperty from "./pages/CreateProperty";
+import MyPublications from "./pages/MyPublications";
+import MyRequests from "./pages/MyRequests";
+
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 import { AuthProvider } from "./contexts/AuthContext";
 import { PropertyProvider } from "./contexts/PropertyContext";
 import { useAuth } from "./contexts/AuthContext";
 
-// Ruta protegida
+// ✅ Ruta privada simple
 function PrivateRoute({ children }) {
   const { user } = useAuth();
   return user ? children : <Navigate to="/login" />;
@@ -22,33 +29,57 @@ export default function App() {
   return (
     <AuthProvider>
       <PropertyProvider>
-        
         <Navbar />
 
-        {/* CONTENEDOR GLOBAL */}
-       <div className="uk-container uk-margin-large-top uk-margin-large-bottom uk-container-large">
-
+        <div className="uk-container uk-margin-large-top uk-margin-large-bottom uk-container-large">
           <Routes>
 
-            {/* PÚBLICAS */}
+            {/* ================= PÚBLICAS ================= */}
             <Route path="/" element={<Home />} />
             <Route path="/buscar" element={<Search />} />
             <Route path="/propiedad/:id" element={<Property />} />
-
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* PROTEGIDA */}
+            {/* ================= DASHBOARD ================= */}
             <Route
-              path="/mis-propiedades"
+              path="/dashboard"
               element={
                 <PrivateRoute>
-                  <Property />
+                  <Dashboard />
                 </PrivateRoute>
               }
             />
 
-            {/* 404 */}
+            {/* ================= PANEL USUARIO ================= */}
+            <Route
+              path="/crear-propiedad"
+              element={
+                <PrivateRoute>
+                  <CreateProperty />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/mis-publicaciones"
+              element={
+                <PrivateRoute>
+                  <MyPublications />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/mis-peticiones"
+              element={
+                <PrivateRoute>
+                  <MyRequests />
+                </PrivateRoute>
+              }
+            />
+
+            {/* ================= 404 ================= */}
             <Route
               path="*"
               element={
@@ -60,9 +91,7 @@ export default function App() {
             />
 
           </Routes>
-
         </div>
-
       </PropertyProvider>
     </AuthProvider>
   );

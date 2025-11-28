@@ -13,30 +13,31 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
 
-    try {
-      const res = await axios.post("http://localhost:4000/api/login", {
-        email,
-        password,
-      });
+  try {
+    const res = await axios.post("http://localhost:4000/api/login", {
+      email,
+      password,
+    });
 
-      const user = {
-        ...res.data.user,
-        token: res.data.token,
-      };
+    const user = {
+      ...res.data.user,
+      token: res.data.token,
+    };
 
-      login(user);
-      navigate("/");
-    } catch (err) {
-      setError(err.response?.data?.message || "Error al iniciar sesión");
-    }
+    login(user);
+    navigate("/dashboard"); 
+  } catch (err) {
+    setError(err.response?.data?.message || "Error al iniciar sesión");
+  }
 
-    setLoading(false);
-  };
+  setLoading(false);
+};
+
 
   return (
     <div className="login-page">

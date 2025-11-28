@@ -60,8 +60,8 @@ export default function Navbar() {
                     >
                       <ul className="uk-nav uk-dropdown-nav">
                         <li className="uk-nav-header">Panel</li>
-                        <li><Link to="/mis-publicaciones">Mis publicaciones</Link></li>
-                        <li><Link to="/mis-peticiones">Mis peticiones</Link></li>
+                        <li><Link to="./Mispublicaciones.jsx">Mis publicaciones</Link></li>
+                        <li><Link to="./Mispeticiones">Mis peticiones</Link></li>
                         <li className="uk-nav-divider"></li>
                         <li>
                           <button className="logout-btn" onClick={handleLogout}>

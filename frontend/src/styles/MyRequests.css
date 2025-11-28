@@ -1,0 +1,9 @@
+.my-requests-page {
+  padding: 40px;
+  text-align: center;
+}
+
+.request-empty {
+  margin-top: 40px;
+  color: #64748b;
+}

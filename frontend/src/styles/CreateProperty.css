@@ -1,0 +1,16 @@
+.create-property-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-card {
+  width: 100%;
+  max-width: 520px;
+  padding: 40px;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+}
